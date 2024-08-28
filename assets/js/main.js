@@ -1,11 +1,6 @@
-/**
-* Template Name: SoftLand
-* Updated: Mar 10 2023 with Bootstrap v5.2.3
-* Template URL: https://bootstrapmade.com/softland-bootstrap-app-landing-page-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-(function() {
+
+
+//(function() {
   "use strict";
 
   /**
@@ -54,7 +49,7 @@
       }
     }
     window.addEventListener('load', headerScrolled)
-    onscroll(document, headerScrolled)
+    onscroll(document, headerScrolled) 
   }
 
   /**
