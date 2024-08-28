@@ -1,21 +1,41 @@
 name: Deployment
+
 on:
   push:
-   branches: [master]
+    branches: [master]
 
-jobs: 
+jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with: 
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
           node-version: 12
-      - run:
-          npm run test
-      - uses: JamesIves/github-pages-deploy-action@releases/v3
-        with: 
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+        continue-on-error: false  # Ensure that the workflow fails if linting fails
+
+      - name: Run tests
+        run: npm test
+        continue-on-error: false  # Ensure that the workflow fails if tests fail
+
+      - name: Build project
+        run: npm run build
+        continue-on-error: false  # Ensure that the workflow fails if the build fails
+
+      - name: Deploy to GitHub Pages
+        if: success()  # This step only runs if previous steps are successful
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: main
           FOLDER: .
-  
